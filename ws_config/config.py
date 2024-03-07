@@ -7,7 +7,8 @@ print(f"- .env: {find_dotenv()}")
 print(f"- FLASK_CONFIG_TYPE: {os.environ.get('FLASK_CONFIG_TYPE')}")
 print(f"- FLASK_DEBUG: {os.environ.get('FLASK_DEBUG')}")
 print(f"- Config File: {os.path.join(os.environ.get('CONFIG_PATH_LOCAL'), os.environ.get('CONFIG_FILE_NAME'))}")
-print(f"- DB: sqlite:///{os.environ.get('DB_ROOT')}{os.environ.get('DB_NAME_WHAT_STICKS')}")
+print(f"- DB_ROOT: {os.environ.get('DB_ROOT')}")
+
 
 match os.environ.get('FLASK_CONFIG_TYPE'):
     case 'dev' | 'prod':
@@ -21,6 +22,9 @@ match os.environ.get('FLASK_CONFIG_TYPE'):
         with open(os.path.join(config_path, config_file_name)) as env_file:
             env_dict = json.load(env_file)
 
+# NOTE:
+# config.json: env_dict.get()
+# .env: os.environ.get()
 
 class ConfigBasic():
 
@@ -33,8 +37,12 @@ class ConfigBasic():
         
         # Database
         self.DB_ROOT = os.environ.get('DB_ROOT')
-        self.SQL_URI_WHAT_STICKS_DB = f"sqlite:///{self.DB_ROOT}{os.environ.get('DB_NAME_WHAT_STICKS')}"
-        # self.SQL_URI_BLOG_POSTS = f"sqlite:///{self.DB_ROOT}{os.environ.get('DB_NAME_BLOG_POSTS')}"
+        # self.DB_MYSQL_ROOT = os.environ.get('DB_MYSQL_ROOT')
+        self.MYSQL_USER = env_dict.get('MYSQL_USER')
+        self.MYSQL_PASSWORD = env_dict.get('MYSQL_PASSWORD')
+        self.MYSQL_SERVER = env_dict.get('MYSQL_SERVER')
+        self.MYSQL_DATABASE_NAME = env_dict.get('MYSQL_DATABASE_NAME')
+        self.SQL_URI_WHAT_STICKS_DB = f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_SERVER}/{self.MYSQL_DATABASE_NAME}"
 
         # database helper files
         self.DATABASE_HELPER_FILES = os.path.join(self.DB_ROOT,"database_helpers")
