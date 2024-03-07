@@ -48,7 +48,7 @@ class WeatherHistory(Base):
     __tablename__ = 'weather_history'
     id = Column(Integer, primary_key = True)
     location_id = Column(Integer, ForeignKey('locations.id'), nullable = False)
-    date_time = Column(Text)
+    date_time = Column(String(14))
     datetimeEpoch = Column(Integer)
     tempmax = Column(Float)
     tempmin = Column(Float)
@@ -92,3 +92,4 @@ class WeatherHistory(Base):
         UniqueConstraint('location_id', 'date_time',  \
             name='_location_id_AND_date_time'),
     )
+
