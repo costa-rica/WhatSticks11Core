@@ -28,9 +28,13 @@ class AppleHealthQuantityCategory(Base):
             f'time_stamp_utc: {self.time_stamp_utc}, UUID: {self.UUID})'
     
     # Add a UniqueConstraint to the table definition
+    # __table_args__ = (
+    #     UniqueConstraint('user_id', 'sampleType', 'UUID','startDate', 'quantity','value', \
+    #         name='_user_sample_uuid_uc'),
+    # )
     __table_args__ = (
-        UniqueConstraint('user_id', 'sampleType', 'UUID','startDate', 'quantity','value', \
-            name='_user_sample_uuid_uc'),
+        UniqueConstraint('user_id', 'sampleType', 'UUID','startDate',  \
+            name='_user_sample_uuid_start_date'),
     )
 
 class AppleHealthWorkout(Base):
@@ -55,9 +59,13 @@ class AppleHealthWorkout(Base):
             f'time_stamp_utc: {self.time_stamp_utc}, UUID: {self.UUID})'
     
     # Add a UniqueConstraint to the table definition
+    # __table_args__ = (
+    #     UniqueConstraint('user_id', 'sampleType', 'UUID','duration', 'startDate',\
+    #         'totalEnergyBurned','totalDistance', name='_user_sample_uuid_uc'),
+    # )
     __table_args__ = (
-        UniqueConstraint('user_id', 'sampleType', 'UUID','duration', 'startDate',\
-            'totalEnergyBurned','totalDistance', name='_user_sample_uuid_uc'),
+        UniqueConstraint('user_id', 'sampleType', 'UUID', 'startDate',\
+             name='_user_sample_uuid_start_date'),
     )
 
 
