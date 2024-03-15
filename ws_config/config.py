@@ -14,22 +14,22 @@ match os.environ.get('FLASK_CONFIG_TYPE'):
     case 'dev' | 'prod':
         config_path = os.environ.get('CONFIG_PATH_SERVER')
         config_file_name = os.environ.get('CONFIG_FILE_NAME')
-        with open(os.path.join(config_path, config_file_name)) as env_file:
-            env_dict = json.load(env_file)
+        with open(os.path.join(config_path, config_file_name)) as config_json_file:
+            config_json_dict = json.load(config_json_file)
     case _:
         config_path = os.environ.get('CONFIG_PATH_LOCAL')
         config_file_name = os.environ.get('CONFIG_FILE_NAME')
-        with open(os.path.join(config_path, config_file_name)) as env_file:
-            env_dict = json.load(env_file)
+        with open(os.path.join(config_path, config_file_name)) as config_json_file:
+            config_json_dict = json.load(config_json_file)
 
 # NOTE:
-# config.json: env_dict.get()
+# config.json: config_json_dict.get()
 # .env: os.environ.get()
 
 class ConfigBasic():
 
     def __init__(self):
-        self.SECRET_KEY = env_dict.get('SECRET_KEY')
+        self.SECRET_KEY = config_json_dict.get('SECRET_KEY')
         self.WEB_ROOT = os.environ.get('WEB_ROOT')
         self.API_ROOT = os.environ.get('API_ROOT')
         self.APPLE_SERVICE_11_ROOT = os.environ.get('APPLE_SERVICE_11_ROOT')
@@ -38,10 +38,10 @@ class ConfigBasic():
         # Database
         self.DB_ROOT = os.environ.get('DB_ROOT')
         # self.DB_MYSQL_ROOT = os.environ.get('DB_MYSQL_ROOT')
-        self.MYSQL_USER = env_dict.get('MYSQL_USER')
-        self.MYSQL_PASSWORD = env_dict.get('MYSQL_PASSWORD')
-        self.MYSQL_SERVER = env_dict.get('MYSQL_SERVER')
-        self.MYSQL_DATABASE_NAME = env_dict.get('MYSQL_DATABASE_NAME')
+        self.MYSQL_USER = config_json_dict.get('MYSQL_USER')
+        self.MYSQL_PASSWORD = config_json_dict.get('MYSQL_PASSWORD')
+        self.MYSQL_SERVER = config_json_dict.get('MYSQL_SERVER')
+        self.MYSQL_DATABASE_NAME = config_json_dict.get('MYSQL_DATABASE_NAME')
         self.SQL_URI_WHAT_STICKS_DB = f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_SERVER}/{self.MYSQL_DATABASE_NAME}"
 
         # database helper files
@@ -79,23 +79,24 @@ class ConfigBasic():
         self.APPLE_HEALTH_WORKOUTS_FILENAME_PREFIX = "AppleHealthWorkouts"
 
         #Email stuff
-        self.MAIL_SERVER = env_dict.get('MAIL_SERVER_GMAIL')
-        self.MAIL_PORT = env_dict.get('MAIL_PORT')
+        self.MAIL_SERVER = config_json_dict.get('MAIL_SERVER_GMAIL')
+        self.MAIL_PORT = config_json_dict.get('MAIL_PORT')
         self.MAIL_USE_TLS = True
-        self.MAIL_USERNAME = env_dict.get('EMAIL_WHAT_STICKS_GMAIL')
-        self.MAIL_PASSWORD = env_dict.get('EMAIL_WHAT_STICKS_GMAIL_PASSWORD')
-        self.ACCEPTED_EMAILS = env_dict.get('ACCEPTED_EMAILS')
+        self.MAIL_USERNAME = config_json_dict.get('EMAIL_WHAT_STICKS_GMAIL')
+        self.MAIL_PASSWORD = config_json_dict.get('EMAIL_WHAT_STICKS_GMAIL_PASSWORD')
+        self.ACCEPTED_EMAILS = config_json_dict.get('ACCEPTED_EMAILS')
 
-        #web Guest
-        self.GUEST_EMAIL = env_dict.get('GUEST_EMAIL')
-        self.GUEST_PASSWORD = env_dict.get('GUEST_PASSWORD')
+        # #web Guest
+        # self.GUEST_EMAIL = config_json_dict.get('GUEST_EMAIL')
+        # self.GUEST_PASSWORD = config_json_dict.get('GUEST_PASSWORD')
 
         #API
-        self.WS_API_PASSWORD = env_dict.get('WS_API_PASSWORD')
+        self.WS_API_PASSWORD = config_json_dict.get('WS_API_PASSWORD')
 
         #Admin stuff
-        self.ADMIN_EMAILS = env_dict.get('ADMIN_EMAILS')
+        self.ADMIN_EMAILS = config_json_dict.get('ADMIN_EMAILS')
         self.DIR_LOGS = os.path.join(self.DB_ROOT,"logs")
+        self.ACTIVATE_TECHNICAL_DIFFICULTIES_ALERT = config_json_dict.get('ACTIVATE_TECHNICAL_DIFFICULTIES_ALERT') == "True"
 
         #Captcha
         # self.SITE_KEY_CAPTCHA = env_support_dict.get('SITE_KEY_CAPTCHA')
@@ -103,17 +104,19 @@ class ConfigBasic():
         self.VERIFY_URL_CAPTCHA = 'https://www.google.com/recaptcha/api/siteverify'
 
         #Oura Ring
-        self.OURA_API_URL_BASE = env_dict.get('OURA_API_URL_BASE')
+        self.OURA_API_URL_BASE = config_json_dict.get('OURA_API_URL_BASE')
 
         #Visual Crossing - weather
-        self.VISUAL_CROSSING_BASE_URL = env_dict.get('VISUAL_CROSSING_BASE_URL')
+        self.VISUAL_CROSSING_BASE_URL = config_json_dict.get('VISUAL_CROSSING_BASE_URL')
         # https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/
         # self.VISUAL_CROSSING_BASE_URL = "https://weather.visualcrossing.com"
-        self.VISUAL_CROSSING_TOKEN = env_dict.get('VISUAL_CROSSING_TOKEN')
+        self.VISUAL_CROSSING_TOKEN = config_json_dict.get('VISUAL_CROSSING_TOKEN')
 
         #Nominatim API - location
         self.NOMINATIM_API_URL = "https://nominatim.openstreetmap.org"
         # f"https://nominatim.openstreetmap.org/reverse?lat={latitude}&lon={longitude}&format=json"
+
+
 
 
 class ConfigLocal(ConfigBasic):
@@ -122,7 +125,7 @@ class ConfigLocal(ConfigBasic):
         super().__init__()
         
         #API
-        self.API_URL = env_dict.get("WS_API_URL_BASE_LOCAL")
+        self.API_URL = config_json_dict.get("WS_API_URL_BASE_LOCAL")
 
     DEBUG = True
 
@@ -132,7 +135,7 @@ class ConfigDev(ConfigBasic):
         super().__init__()
 
         #API
-        self.API_URL = env_dict.get("WS_API_URL_BASE_DEVELOPMENT")
+        self.API_URL = config_json_dict.get("WS_API_URL_BASE_DEVELOPMENT")
 
     DEBUG = True
     TEMPLATES_AUTO_RELOAD = True
@@ -143,7 +146,7 @@ class ConfigProd(ConfigBasic):
         super().__init__()
 
         #API
-        self.API_URL = env_dict.get("WS_API_URL_BASE_PRODUCTION")
+        self.API_URL = config_json_dict.get("WS_API_URL_BASE_PRODUCTION")
 
     DEBUG = False
     TESTING = False
