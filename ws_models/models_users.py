@@ -1,4 +1,4 @@
-from .base import Base, sess
+from .base import Base, session_scope
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Text, Float, DateTime, ForeignKey, \
     Date, Boolean
@@ -59,8 +59,8 @@ class Users(Base, UserMixin):
             user_id = payload.get("user_id")
         except:
             return None
-
-        return sess.query(Users).get(user_id)
+        with session_scope() as session:
+            return session.query(Users).get(user_id)
 
     def __repr__(self):
         return f'Users(id: {self.id}, email: {self.email}, share: {self.share},' \
