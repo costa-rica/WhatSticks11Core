@@ -126,6 +126,7 @@ class ConfigLocal(ConfigBasic):
         
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_LOCAL")
+        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_LOCAL")
 
     DEBUG = True
 
@@ -136,6 +137,7 @@ class ConfigDev(ConfigBasic):
 
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_DEVELOPMENT")
+        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_DEVELOPMENT")
 
     DEBUG = True
     TEMPLATES_AUTO_RELOAD = True
@@ -147,6 +149,7 @@ class ConfigProd(ConfigBasic):
 
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_PRODUCTION")
+        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_PRODUCTION")
 
     DEBUG = False
     TESTING = False
