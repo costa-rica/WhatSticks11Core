@@ -66,11 +66,6 @@ class ConfigBasic():
         self.WEBSITE_FILES = f"{self.DB_ROOT}website_files"# <-- store website files
         self.DIR_WEBSITE_UTILITY_IMAGES = os.path.join(self.WEBSITE_FILES,"website_utility_images")# <-- store blog word documents
         self.DIR_WEBSITE_VIDEOS = os.path.join(self.WEBSITE_FILES,"website_videos")# <-- store videos
-        #Other Directories in /databases/WhatSticks10
-        # self.DIR_DB_BLOG = os.path.join(self.DIR_DB_AUXILIARY,"blog")# <-- store blog word documents
-        # self.DIR_DB_BLOG = f"{self.DB_ROOT}blog"# <-- store blog word documents
-        # self.DIR_DB_NEWS = os.path.join(self.DIR_DB_AUXILIARY,"news")# <-- store blog word documents
-        # self.DIR_DB_NEWS = f"{self.DB_ROOT}news"# <-- store blog word documents
 
         # self.DIR_DB_AUX_OURA_SLEEP_RESPONSES = f"{self.DIR_DB_AUXILIARY}/oura_sleep_responses"
         
@@ -85,10 +80,6 @@ class ConfigBasic():
         self.MAIL_USERNAME = config_json_dict.get('EMAIL_WHAT_STICKS_GMAIL')
         self.MAIL_PASSWORD = config_json_dict.get('EMAIL_WHAT_STICKS_GMAIL_PASSWORD')
         self.ACCEPTED_EMAILS = config_json_dict.get('ACCEPTED_EMAILS')
-
-        # #web Guest
-        # self.GUEST_EMAIL = config_json_dict.get('GUEST_EMAIL')
-        # self.GUEST_PASSWORD = config_json_dict.get('GUEST_PASSWORD')
 
         #API
         self.WS_API_PASSWORD = config_json_dict.get('WS_API_PASSWORD')
@@ -126,6 +117,7 @@ class ConfigLocal(ConfigBasic):
         
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_LOCAL")
+        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_LOCAL")
 
     DEBUG = True
 
@@ -136,6 +128,7 @@ class ConfigDev(ConfigBasic):
 
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_DEVELOPMENT")
+        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_DEVELOPMENT")
 
     DEBUG = True
     TEMPLATES_AUTO_RELOAD = True
@@ -147,6 +140,7 @@ class ConfigProd(ConfigBasic):
 
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_PRODUCTION")
+        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_PRODUCTION")
 
     DEBUG = False
     TESTING = False
