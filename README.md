@@ -18,7 +18,7 @@ pip install -e .
 After installation, import the modules into your Python projects as needed:
 
 ```python
-from ws_config import ConfigLocal, ConfigDev, ConfigProd
+from ws_config import ConfigWorkstation, ConfigDev, ConfigProd
 from ws_models import Base, create_engine, inspect, sess, engine, text, \
     Users, \
     CommunityPosts, CommunityComments,NewsPosts, NewsComments, \

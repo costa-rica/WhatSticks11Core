@@ -6,7 +6,7 @@ load_dotenv()
 print(f"- .env: {find_dotenv()}")
 print(f"- FLASK_CONFIG_TYPE: {os.environ.get('FLASK_CONFIG_TYPE')}")
 print(f"- FLASK_DEBUG: {os.environ.get('FLASK_DEBUG')}")
-print(f"- Config File: {os.path.join(os.environ.get('CONFIG_PATH_LOCAL'), os.environ.get('CONFIG_FILE_NAME'))}")
+print(f"- Config File: {os.path.join(os.environ.get('CONFIG_PATH_WORKSTATION'), os.environ.get('CONFIG_FILE_NAME'))}")
 print(f"- DB_ROOT: {os.environ.get('DB_ROOT')}")
 
 
@@ -17,7 +17,7 @@ match os.environ.get('FLASK_CONFIG_TYPE'):
         with open(os.path.join(config_path, config_file_name)) as config_json_file:
             config_json_dict = json.load(config_json_file)
     case _:
-        config_path = os.environ.get('CONFIG_PATH_LOCAL')
+        config_path = os.environ.get('CONFIG_PATH_WORKSTATION')
         config_file_name = os.environ.get('CONFIG_FILE_NAME')
         with open(os.path.join(config_path, config_file_name)) as config_json_file:
             config_json_dict = json.load(config_json_file)
@@ -110,14 +110,16 @@ class ConfigBasic():
 
 
 
-class ConfigLocal(ConfigBasic):
+class ConfigWorkstation(ConfigBasic):
     
     def __init__(self):
         super().__init__()
         
         #API
-        self.API_URL = config_json_dict.get("WS_API_URL_BASE_LOCAL")
-        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_LOCAL")
+        self.API_URL = config_json_dict.get("WS_API_URL_BASE_WORKSTATION")
+        self.API_URL_LOCAL = config_json_dict.get("WS_API_URL_BASE_WORKSTATION")
+        self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_WORKSTATION")
+        self.WEB_URL_LOCAL = config_json_dict.get("WS_WEB_URL_BASE_WORKSTATION")
 
     DEBUG = True
 
@@ -128,7 +130,9 @@ class ConfigDev(ConfigBasic):
 
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_DEVELOPMENT")
+        self.API_URL_LOCAL = config_json_dict.get("WS_API_URL_BASE_DEV_LOCAL")
         self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_DEVELOPMENT")
+        self.WEB_URL_LOCAL = config_json_dict.get("WS_WEB_URL_BASE_DEV_LOCAL")
 
     DEBUG = True
     TEMPLATES_AUTO_RELOAD = True
@@ -140,7 +144,9 @@ class ConfigProd(ConfigBasic):
 
         #API
         self.API_URL = config_json_dict.get("WS_API_URL_BASE_PRODUCTION")
+        self.API_URL_LOCAL = config_json_dict.get("WS_API_URL_BASE_PROD_LOCAL")
         self.WEB_URL = config_json_dict.get("WS_WEB_URL_BASE_PRODUCTION")
+        self.WEB_URL_LOCAL = config_json_dict.get("WS_WEB_URL_BASE_PROD_LOCAL")
 
     DEBUG = False
     TESTING = False
