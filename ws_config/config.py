@@ -4,13 +4,13 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv()
 print(f"- .env: {find_dotenv()}")
-print(f"- FLASK_CONFIG_TYPE: {os.environ.get('FLASK_CONFIG_TYPE')}")
+print(f"- WS_CONFIG_TYPE: {os.environ.get('WS_CONFIG_TYPE')}")
 print(f"- FLASK_DEBUG: {os.environ.get('FLASK_DEBUG')}")
 print(f"- Config File: {os.path.join(os.environ.get('CONFIG_PATH_WORKSTATION'), os.environ.get('CONFIG_FILE_NAME'))}")
 print(f"- DB_ROOT: {os.environ.get('DB_ROOT')}")
 
 
-match os.environ.get('FLASK_CONFIG_TYPE'):
+match os.environ.get('WS_CONFIG_TYPE'):
     case 'dev' | 'prod':
         config_path = os.environ.get('CONFIG_PATH_SERVER')
         config_file_name = os.environ.get('CONFIG_FILE_NAME')
